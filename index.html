@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Korean War Strategy Game - Pick your faction, command your troops, achieve victory">
+    <title>Korean War Strategy Game</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div id="loading-screen" class="loading-screen" aria-live="polite">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p id="loading-text">Preparing the battlefield...</p>
+        </div>
+    </div>
+
+    <!-- Faction Selection Screen -->
+    <section id="faction-selection" class="faction-selection" aria-label="Faction Selection">
+        <h2>Pick your Faction</h2>
+        <div class="faction-buttons">
+            <button class="faction-button us" data-faction="us" aria-label="Select US Faction">
+                <img src="images/us.png" alt="US Flag" class="faction-flag">
+                <span class="faction-name">US</span>
+            </button>
+            <button class="faction-button rok" data-faction="rok" aria-label="Select ROK Faction">
+                <img src="images/rok.png" alt="ROK Flag" class="faction-flag">
+                <span class="faction-name">ROK</span>
+            </button>
+            <button class="faction-button dprk" data-faction="dprk" aria-label="Select DPRK Faction">
+                <img src="images/dprk.png" alt="DPRK Flag" class="faction-flag">
+                <span class="faction-name">DPRK</span>
+            </button>
+            <button class="faction-button pla" data-faction="pla" aria-label="Select PLA Faction">
+                <img src="images/pla.png" alt="PLA Flag" class="faction-flag">
+                <span class="faction-name">PLA</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Game Interface -->
+    <main id="game-interface" class="game-interface" style="display: none;">
+        
+        <div id="top-bar" class="top-bar">
+            <div class="resource-info">
+            </div>
+            <div class="turn-info">
+                <span>Round: <span id="current-turn">1</span></span>
+                <span id="action-points-display">Action Points: -/-</span>
+                <span>Faction: <span id="current-faction">-</span></span>
+            </div>
+            <div class="game-controls-top">
+                <button id="pause-button" class="pixel-button top-button" aria-label="Pause">
+                    ❚❚
+                </button>
+                 <button id="dev-mode-toggle" class="pixel-button top-button dev-button" style="font-size: 10px;">Dev</button>
+            </div>
+        </div>
+
+        <!-- Wrapper for map and sidebar -->
+        <div class="main-content-area">
+            <!-- Main Map Container -->
+            <div id="map-container" class="map-container">
+                <!-- Map generated dynamically in JavaScript -->
+            </div>
+            
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Status Info -->
+                <div id="status-area" class="status-area">
+                    <div id="status-message" class="status-message">Select  a unit</div>
+                    <hr>
+                </div>
+                
+                <!-- Unit Info -->
+                <div id="unit-info" class="unit-info">
+                    <h3>Selected Unit</h3>
+                    <div id="selected-unit-details">Select  a unit</div>
+                </div>
+                
+                <!-- Game Control Buttons -->
+                <div class="game-controls">
+                    <button id="end-turn-button" class="pixel-button full-width">End Turn</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html> 

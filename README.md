@@ -1,4 +1,3 @@
-# Hexagonal-Strategy-War-Game
 Hexagonal Strategy War Game
 A turn-based strategy game based on a hexagonal grid where players can choose different countries to engage in warfare.
 

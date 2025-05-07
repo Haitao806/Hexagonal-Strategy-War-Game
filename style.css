@@ -1,0 +1,1080 @@
+/* style.css */
+
+/* 全局样式重置和基础设置 */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --background-color: #222222; /* 深色背景 */
+    --text-color: #ffffff; /* 白色文字 */
+    --border-radius: 8px;
+    --transition-speed: 0.3s;
+    --pixel-border: 3px solid #000000;
+    --pixel-shadow: 4px 4px 0px #000000;
+    --pixel-font: 'Press Start 2P', monospace;
+    --panel-bg: #444444; /* 面板背景 */
+    --button-bg: #cccccc;
+    --button-hover-bg: #dddddd;
+    --button-active-shadow: 2px 2px 0px #000000;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--pixel-font); /* 全局应用像素字体 */
+    image-rendering: pixelated; /* 全局尝试像素化渲染 */
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+html, body {
+    height: 100%; /* 确保 html 和 body 占满整个视口高度 */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    overflow: hidden; /* 防止 body 出现滚动条 */
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+body {
+    line-height: 1.6;
+}
+
+/* 加载屏幕样式 */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 设置背景图片 */
+    background-image: url('images/bg.jpg'); 
+    background-size: cover; /* 图片覆盖整个屏幕 */
+    background-position: center; /* 图片居中显示 */
+    background-repeat: no-repeat; /* 不重复图片 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* 添加半透明黑色叠加层，让文字更清晰 */
+    background-color: rgba(0, 0, 0, 0.5); 
+    background-blend-mode: multiply; /* 将背景色与背景图片混合 */
+}
+
+.loading-content {
+    text-align: center;
+    color: white;
+    /* 移除圆角，增加硬边框 */
+    background-color: rgba(0, 0, 0, 0.6); /* 加深一点背景 */
+    padding: 2rem 3rem;
+    border-radius: 0; /* 移除圆角 */
+    border: 4px solid #ffffff; /* 添加白色硬边框 */
+    box-shadow: 6px 6px 0px #000000; /* 添加硬阴影 */
+    max-width: 90%;
+}
+
+.loading-content h1 {
+    margin-bottom: 2rem;
+    font-size: 2.5rem; /* 调整字体大小 */
+    font-weight: normal; /* 移除粗体 */
+    /* 添加硬阴影 */
+    text-shadow: 3px 3px 0px #000000;
+    font-family: 'Press Start 2P', monospace; /* 像素字体 */
+    letter-spacing: 1px;
+}
+
+.loading-spinner {
+    width: 50px; /* 调整大小 */
+    height: 50px;
+    border: 6px solid #ffffff; /* 加粗边框 */
+    border-top-color: #aaaaaa; /* 让其中一边颜色不同，更易看出旋转 */
+    border-radius: 0; /* 移除圆角，变方块 */
+    animation: spin 1s steps(8, end) infinite; /* 使用阶梯动画，模拟像素旋转 */
+    margin: 0 auto 1.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading-text { 
+    font-size: 1rem; /* 调整字体大小 */
+    text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.9); /* 硬阴影 */
+    font-family: 'Press Start 2P', monospace; /* 像素字体 */
+}
+
+/* 阵营选择界面 */
+.faction-selection {
+    /* 添加背景图 */
+    background-image: url('images/bg.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* 调整叠加层颜色和透明度，让背景更暗，突出按钮 */
+    background-color: rgba(0, 0, 0, 0.75); 
+    background-blend-mode: multiply;
+
+    /* 调整样式适应背景图 */
+    padding: 3rem 2rem; 
+    min-height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white; 
+}
+
+.faction-selection h2 {
+    font-size: 2.5rem; /* 稍微减小标题字体以适应像素风格 */
+    margin-bottom: 2rem;
+    color: #ffffff; /* 标题改回纯白色 */
+    text-shadow: 2px 2px 0px #000000; /* 硬阴影，像素风格 */
+    font-family: 'Press Start 2P', monospace; /* 尝试像素字体，备用 monospace */
+    letter-spacing: 2px; /* 增加字间距 */
+}
+
+.faction-buttons {
+    display: flex; /* 改为 Flexbox */
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 居中对齐按钮 */
+    gap: 1rem; /* 按钮间距 */
+    padding: 1rem;
+    width: 100%;
+    max-width: 400px; /* 垂直布局时限制最大宽度 */
+    /* 添加 transform 来向右移动 */
+    transform: translateX(10%) !important; /* 向右移动 50px */
+}
+
+.faction-button {
+    display: flex; /* 按钮内部也用 Flexbox */
+    align-items: center; /* 垂直居中内容 */
+    justify-content: flex-start; /* 内容靠左 */
+    width: 100%; /* 按钮占满容器宽度 */
+    padding: 1rem 1.5rem; /* 调整内边距 */
+    border: 3px solid #000000; /* 粗黑边框 */
+    border-radius: 0; /* 移除圆角 */
+    background-color: #cccccc; /* 灰色背景 */
+    box-shadow: 4px 4px 0px #000000; /* 硬阴影 */
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s; /* 简化过渡 */
+    overflow: hidden;
+}
+
+.faction-button:hover {
+    background-color: #dddddd; /* 悬停时变亮 */
+    /* 悬停时可以稍微移动或改变阴影 */
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000000;
+}
+
+.faction-button:active {
+    /* 点击时效果 */
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px #000000;
+}
+
+/* 国旗样式 */
+.faction-flag {
+    width: 40px; /* 设置国旗固定宽度 */
+    height: auto; /* 高度自适应 */
+    margin-right: 1.5rem; /* 国旗和文字的间距 */
+    border: 2px solid #000; /* 给国旗加个黑框 */
+    /* 关键：像素化渲染 */
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: crisp-edges; /* W3C 标准 */
+}
+
+.faction-name {
+    font-size: 1.2rem; /* 调整字体大小 */
+    font-weight: normal; /* 移除加粗 */
+    color: #000000; /* 文字改为黑色 */
+    text-shadow: none; /* 移除文字阴影 */
+    font-family: 'Press Start 2P', monospace; /* 像素字体 */
+}
+
+/* 游戏主界面 */
+#game-interface {
+    display: flex; /* 改回 Flexbox */
+    flex-direction: column; /* 垂直排列 TopBar 和 MainContent */
+    height: 100vh;
+    width: 100vw;
+    position: relative; /* 保持相对定位 */
+}
+
+/* --- 顶部信息栏 --- */
+#top-bar {
+    flex-shrink: 0; /* 防止顶部栏被压缩 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    height: 40px;
+    background-color: var(--panel-bg);
+    border-bottom: var(--pixel-border);
+    box-shadow: 0px 4px 0px #000000;
+    color: var(--text-color);
+    z-index: 20;
+    font-size: 12px;
+    position: sticky; /* <--- 新增：使其置顶 */
+    top: 0;           /* <--- 新增：粘在顶部 */
+}
+
+#top-bar .resource-info span, 
+#top-bar .turn-info span {
+    margin: 0 15px; /* 调整间距 */
+    display: inline-block; /* 确保间距生效 */
+}
+
+#top-bar .game-controls-top {
+    display: flex;
+    gap: 10px;
+}
+
+/* 新增：主内容区域 Flex 布局 */
+.main-content-area {
+    display: flex; /* 使用 Flexbox 排列地图和侧边栏 */
+    flex-grow: 1; /* 占据剩余的所有垂直空间 */
+    overflow: hidden; /* 防止此容器本身滚动 */
+}
+
+/* --- 地图容器 --- */
+#map-container {
+    flex-grow: 1; /* 占据所有可用的水平空间 */
+    position: relative;
+    overflow: auto; /* 允许地图内容滚动 */
+    /* 新增：显式设置高度，等于视口高度减去顶部栏高度 */
+    height: calc(100vh - 40px); 
+    min-height: 300px; /* 保留一个最小高度，以防万一 */
+    /* background-color: #333; /* 移除调试用的背景色 */
+    border: 1px solid #555;
+    /* height: 100%; /* <--- 注释掉或移除这一行 */
+    /* 新增背景图片样式 */
+    background-image: url('images/parchment_bg.jpg');
+    background-size: cover;       /* 缩放以覆盖 */
+    background-position: center;  /* 居中 */
+    background-repeat: no-repeat; /* 不重复 */
+}
+
+/* 添加 sizer 样式 */
+.map-sizer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* 不干扰鼠标事件 */
+    visibility: hidden; /* 不可见 */
+}
+
+/* --- 侧边栏 (单位信息) --- */
+#sidebar {
+    width: 280px;
+    flex-shrink: 0; 
+    height: 100%; /* 重新添加，固定高度 */
+    padding: 15px;
+    background-color: var(--panel-bg);
+    border-left: var(--pixel-border);
+    box-shadow: -4px 0px 0px #000000;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-color);
+    overflow-y: auto; 
+    z-index: 15;
+    /* 移除直接在sidebar上的断词规则 */
+    /* overflow-wrap: break-word; */
+    /* word-wrap: break-word; */
+    /* word-break: break-word; */
+}
+
+#selected-unit-info {
+    background-color: #333333; /* 深色背景 */
+    padding: 15px;
+    border: var(--pixel-border);
+    margin-bottom: 15px;
+    min-height: 120px; /* 增加最小高度 */
+    font-size: 12px; /* 像素风格小字体 */
+    line-height: 1.5;
+    color: #e0e0e0; /* 浅色文字 */
+}
+
+/* --- 绝对定位的按钮容器 --- */
+.action-buttons-corner {
+    display: none !important; /* 强制隐藏操作按钮容器 */
+}
+
+/* 为每个按钮单独设置背景图 */
+#move-button, #attack-button, #capture-button {
+    display: none !important; /* 强制隐藏按钮 */
+}
+
+/* --- 通用像素按钮样式 --- */
+.pixel-button {
+    display: inline-flex; /* 使用 inline-flex */
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* 移除内边距，由宽高控制 */
+    border: var(--pixel-border);
+    background-color: var(--button-bg);
+    box-shadow: var(--pixel-shadow);
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+    font-family: var(--pixel-font); /* 确保按钮文字也是像素风 */
+    color: #000000;
+    /* 移除文字选择 */
+    user-select: none; 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.pixel-button:hover {
+    background-color: var(--button-hover-bg);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000000;
+}
+
+.pixel-button:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--button-active-shadow);
+}
+
+.pixel-button:disabled {
+    background-color: #888888;
+    box-shadow: 2px 2px 0px #000000;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* 特定按钮大小和样式 */
+#top-bar .top-button {
+    width: 40px; /* 顶部按钮较小 */
+    height: 40px;
+    font-size: 16px; /* 调整图标/文字大小 */
+}
+
+/* 移除不再使用的操作按钮样式 */
+.action-buttons-corner .action-button {
+    display: none !important;
+}
+
+/* 移除特定按钮的背景图片定义 */
+#move-button, #attack-button, #capture-button {
+    display: none !important;
+}
+
+.end-turn-button-corner {
+    position: absolute;
+    bottom: 20px;
+    right: 20px; /* 紧靠右侧 */
+    z-index: 30; 
+}
+
+#selected-unit-icon {
+    width: 50px; /* 图标大小 */
+    height: 50px;
+    border: var(--pixel-border);
+    margin-right: 10px; /* 与按钮的间距 */
+    background-color: var(--panel-bg); /* 背景色 */
+    object-fit: contain;
+    display: none; /* 默认隐藏 */
+}
+
+/* --- 六边形和单位样式 (保持像素风格) --- */
+.hex {
+    position: absolute;
+    border: 2px solid #555555;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 1;
+    background-color: #CD853F; /* 稍微暖一点的褐色（无主之地） */
+}
+
+/* 地形颜色覆盖 */
+.hex.terrain-rock { 
+    background-color: #696969 !important; /* 暗灰色岩块，!important确保优先级 */ 
+}
+
+/* 阵营占领颜色 */
+.hex.faction-us { 
+    background-color: #0055b7; /* 深蓝色 - 美国 */
+    border: 3px solid #ffffff; 
+    color: white;
+}
+.hex.faction-rok { 
+    background-color: #ff0000; /* 鲜红色 - 韩国 */
+    border: 3px solid #ffffff; 
+    color: white;
+}
+.hex.faction-dprk { 
+    background-color: #3CB371; /* 中绿色 - 朝鲜 */
+    border: 3px solid #ffffff; 
+    color: white;
+}
+.hex.faction-pla { 
+    background-color: #FFD700; /* 金黄色 - 中国 */
+    border: 3px solid #ffffff; 
+    color: black;
+}
+
+/* (可选) 定义一个简单的脉冲动画 */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* 选中和可移动/攻击高亮 */
+.hex.selected {
+    /* 增强格子光晕效果 */
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.8); /* 更大范围的亮白色光晕 */
+    z-index: 10;
+}
+
+.hex.possible-move {
+    box-shadow: 0 0 8px 2px #00ff00;
+    z-index: 2;
+}
+
+.hex.possible-attack {
+    box-shadow: 0 0 8px 2px #ff0000;
+    z-index: 2;
+}
+
+/* 新增：选中攻击目标的高亮样式 */
+.hex.action-target {
+    outline: 3px dashed #FF8C00; /* 暗橙色虚线轮廓 */
+    outline-offset: -3px;      /* 使轮廓向内，更贴合六边形 */
+    z-index: 3;                /* 比 possible-move/attack 高，比 selected 低 */
+}
+
+/* 游戏结束屏幕 */
+.game-over-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+}
+
+.game-over-content {
+    background-color: var(--panel-bg);
+    border: 3px solid var(--panel-border);
+    padding: 2rem;
+    border-radius: 5px;
+    text-align: center;
+    max-width: 400px;
+}
+
+.game-over-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.game-over-content p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+/* 状态区域 */
+.status-area {
+    margin-bottom: 20px;
+}
+
+.status-message {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-color);
+    text-align: center;
+    padding: 10px;
+    /* 为状态消息添加换行、断词和最大宽度限制 */
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%; 
+    white-space: normal; 
+}
+
+/* 单位信息区域 */
+.unit-info {
+    margin-bottom: 20px;
+}
+
+.unit-info h3 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* 游戏控制按钮 */
+.game-controls {
+    margin-top: auto;
+    padding: 15px 0;
+}
+
+/* 全宽按钮 */
+.full-width {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+}
+
+/* 旗帜样式 */
+.flag {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 16px;
+    pointer-events: none;
+    text-shadow: 2px 2px 0px #000000; /* 硬阴影 */
+    z-index: 5;
+}
+
+.flag-us { color: #5555ff; }
+.flag-rok { color: #ff5555; }
+.flag-dprk { color: #ffff55; }
+.flag-pla { color: #55ff55; }
+
+/* 移除旧的、不再使用的样式 */
+/* 例如 .game-header, .action-buttons (旧的容器), .end-turn-button (旧的按钮) 等 */
+.game-header, 
+.faction-selector, /* 确认这个是否还需要，如果和 faction-selection 重叠则移除 */
+.main-container /* 移除旧布局容器 */
+/* ... 可能还有其他旧样式需要清理 ... */
+{
+    display: none !important; /* 强制隐藏旧元素，防止干扰 */
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .game-interface {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+    }
+
+    .game-controls {
+        grid-row: 3;
+    }
+}
+
+@media (max-width: 768px) {
+    .faction-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .turn-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+/* 辅助功能样式 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+h1 {
+    color: #1c1e21;
+    margin-bottom: 15px;
+}
+
+/* --- 阵营选择样式 --- */
+.faction-selector {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.faction-selector h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1c1e21;
+}
+
+.faction-selector button {
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #e4e6eb;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.faction-selector button:hover {
+    background-color: #dcdfe3;
+    transform: translateY(-1px);
+}
+
+/* --- 游戏主界面样式 (用于控制显示/隐藏) --- */
+#game-interface {
+    width: 100%; /* 确保容器占满宽度以正确居中内容 */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */ /* 移除或注释掉此行以解决地图不显示问题 */
+}
+
+.game-info {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.game-info span {
+    font-weight: 500;
+}
+
+.game-info button {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #e4e6eb;
+    cursor: pointer;
+    font-weight: bold;
+}
+.game-info button:hover {
+    background-color: #dcdfe3;
+}
+
+.main-container {
+    display: flex;
+    gap: 20px;
+    width: 90%; /* 或者设置一个最大宽度 max-width */
+    justify-content: center; /* 尝试居中地图和侧边栏 */
+}
+
+/* 单位显示样式 */
+.hex .unit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
+    height: 85%;
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* 单位图片 */
+.hex .unit img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    image-rendering: pixelated;
+    filter: drop-shadow(2px 2px 0px rgba(0, 0, 0, 0.7));
+}
+
+/* 不同阵营的单位颜色 - 作为图片加载失败的备用样式 */
+.hex .unit.unit-us {
+    background-color: #0055b7; /* 深蓝色 - 美国 */
+    color: white;
+}
+.hex .unit.unit-rok {
+    background-color: #ff0000; /* 鲜红色 - 韩国 */
+    color: white;
+}
+.hex .unit.unit-dprk {
+    background-color: #3CB371; /* 中绿色 - 朝鲜 */
+    color: white;
+}
+.hex .unit.unit-pla {
+    background-color: #FFD700; /* 金黄色 - 中国 */
+    color: black;
+}
+
+/* 地图六边形上的国旗居中样式 */
+.hex .faction-flag {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 实现完美的水平和垂直居中 */
+    max-width: 50%; /* 国旗最大宽度为格子宽度的50% */
+    max-height: 50%; /* 国旗最大高度为格子高度的50% */
+    width: auto; /* 保持原始宽高比 */
+    height: auto; /* 保持原始宽高比 */
+    z-index: 1; /* 确保在格子背景之上，但在单位之下 */
+    opacity: 0.8; /* 稍微透明，使其不太突兀 */
+    pointer-events: none; /* 避免国旗遮挡点击事件 */
+    image-rendering: pixelated; /* 保持像素风格 */
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* 地图六边形上的国旗占位符 (图片加载失败时) */
+.hex .faction-flag-fallback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 居中 */
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 2px 4px;
+    border-radius: 3px;
+    z-index: 1;
+    pointer-events: none;
+    text-align: center;
+    font-family: var(--pixel-font); /* 使用项目定义的像素字体 */
+}
+
+/* 可移动范围高亮 */
+.hex.reachable {
+    position: relative;
+    background-color: rgba(255, 255, 0, 0.4) !important; /* 半透明黄色高亮 */
+    box-shadow: inset 0 0 5px yellow; /* 内阴影效果 */
+    cursor: pointer; /* 提示可以点击 */
+    z-index: 2; /* 确保高亮可见 */
+}
+
+/* 攻击范围目标高亮 */
+.hex.attackable {
+    position: relative;
+    outline: 2px dashed red; /* 用红色虚线轮廓表示可攻击目标 */
+    outline-offset: -2px; /* 使轮廓向内一点 */
+    background-color: rgba(255, 0, 0, 0.25) !important; /* 半透明红色背景 */
+    cursor: crosshair; /* 提示可以攻击 */
+    z-index: 3; /* 确保在其他高亮之上 */
+}
+
+/* 侧边栏样式 (修改) */
+#sidebar {
+    width: 280px; /* 设置一个固定的宽度 */
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column; /* 内部元素垂直排列 */
+    overflow-y: auto; /* 如果侧边栏内容过多，允许垂直滚动 */
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #1c1e21;
+}
+
+.sidebar p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.sidebar hr {
+    border: none;
+    border-top: 1px solid #e4e6eb;
+    margin: 15px 0;
+}
+
+.unit {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    border-radius: 50%;
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.unit-hp {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* 阵营颜色（作为图片加载失败时的后备样式） */
+.faction-us {
+    background-color: rgba(0, 100, 255, 0.7);
+    color: white;
+}
+
+.faction-rok {
+    background-color: rgba(255, 200, 0, 0.7);
+    color: black;
+}
+
+.faction-dprk {
+    background-color: rgba(255, 0, 0, 0.7);
+    color: white;
+}
+
+.faction-pla {
+    background-color: rgba(255, 100, 0, 0.7);
+    color: white;
+}
+
+/* 选中和高亮状态 */
+.unit.selected {
+    /* 增加明显的金色边框 */
+    border: 3px solid gold !important; /* 使用 !important 确保覆盖默认边框 */
+    /* (可选) 应用脉冲动画 */
+    /* animation: pulse 1.5s infinite ease-in-out; */
+    /* 轻微放大效果 */
+    transform: translate(-50%, -50%) scale(1.05); 
+}
+
+.hex.movement-range {
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+.hex.attack-range {
+    background-color: rgba(255, 0, 0, 0.2);
+}
+
+/* 旗帜样式，用于显示城市占领标识 */
+.flag {
+    position: absolute;
+    top: 5px; /* 调整旗帜位置 */
+    right: 5px;
+    font-size: 18px; /* 增大旗帜大小 */
+    pointer-events: none;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); /* 文字阴影让旗帜更明显 */
+}
+
+/* 不同阵营的旗帜颜色 */
+.flag-us { color: #007bff; } /* 蓝色 */
+.flag-rok { color: #dc3545; } /* 红色 */
+.flag-dprk { color: #ffc107; } /* 黄色 */
+.flag-pla { color: #28a745; } /* 绿色 */
+
+/* 为开发者日志添加样式 */
+.log-attack { color: #e74c3c; font-weight: bold; }
+.log-move { color: #3498db; }
+.log-capture { color: #f1c40f; font-weight: bold; }
+.log-round { color: #9b59b6; font-weight: bold; border-top: 1px dashed #9b59b6; margin-top: 5px; padding-top: 5px; }
+
+/* 胜利条件测试对话框样式 */
+.victory-test-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(50, 50, 50, 0.9);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    border: 1px solid #888;
+    min-width: 300px;
+    text-align: center;
+}
+
+.victory-test-dialog h3 {
+    margin-top: 0;
+    color: #f1c40f;
+}
+
+.victory-test-dialog p {
+    margin-bottom: 15px;
+}
+
+.test-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #444;
+    color: white;
+    border: 1px solid #666;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.test-button:hover {
+    background-color: #555;
+}
+
+.close-button {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-top: 15px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.close-button:hover {
+    background-color: #c0392b;
+}
+
+.status-dialog ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    text-align: left;
+}
+
+.status-dialog li {
+    margin-bottom: 5px;
+}
+
+/* 操作按钮容器 */
+.actions {
+    margin-bottom: 20px;
+}
+
+.action-button {
+    display: block; /* 每个按钮占一行 */
+    width: 100%; /* 占满侧边栏宽度 */
+    padding: 12px 0; /* 增加垂直内边距 */
+    margin-bottom: 10px; /* 按钮间距 */
+    background-color: #f8f9fa; /* 淡灰色背景 */
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    text-align: center; /* 文字居中 */
+    font-size: 1em; /* 调整字体大小 */
+}
+
+.action-button:hover:not(:disabled) {
+    background-color: #e2e6ea; /* 悬停效果 */
+    border-color: #adb5bd;
+}
+
+.action-button:disabled {
+    background-color: #e9ecef;
+    color: #adb5bd;
+    cursor: not-allowed;
+    border-color: #ced4da;
+}
+
+/* 按钮下的提示信息 */
+.action-message {
+    color: #e74c3c;
+    font-size: 0.8em;
+    margin-top: -5px; /* 向上移动一点，更靠近按钮 */
+    margin-bottom: 10px; /* 与下一个按钮保持距离 */
+    text-align: center;
+}
+
+/* 结束回合按钮 */
+#end-turn-button {
+    padding: 15px 0; /* 更大的内边距 */
+    background-color: #dc3545; /* 红色背景 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 1.1em; /* 稍大字体 */
+    font-weight: bold; /* 加粗 */
+    margin-top: auto; /* 将按钮推到底部 */
+}
+
+#end-turn-button:hover {
+    background-color: #c82333; /* 悬停时更深的红色 */
+}
+
+/* 游戏信息显示 */
+.game-info {
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    color: #495057;
+    text-align: center;
+    border-bottom: 1px solid #eee; /* 添加分割线 */
+    padding-bottom: 15px; /* 分割线下方间距 */
+}
+
+#action-points-display {
+    font-weight: bold;
+    color: #ffff55; /* 黄色突出显示 */
+}
+
+/* --- 游戏主界面布局 --- */
+
+/* 新生成单位样式 */
+.hex .unit.newly-created {
+    opacity: 0.7;
+    filter: grayscale(50%);
+}
+
+.new-unit-marker {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #ff0000;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 50%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.end-turn-button-corner .end-turn-button {
+    width: 70px; /* 结束回合按钮稍大 */
+    height: 70px;
+    font-size: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#selected-unit-details {
+    /* 保留之前的样式 */
+    background-color: #333333; 
+    padding: 15px;
+    border: var(--pixel-border);
+    margin-bottom: 15px;
+    min-height: 120px; 
+    font-size: 12px; 
+    line-height: 1.5;
+    color: #e0e0e0; 
+    /* 为单位详情添加换行、断词和最大宽度限制 */
+    overflow-wrap: break-word;
+    word-break: break-word;
+    max-width: 100%;
+    white-space: normal; 
+} 
